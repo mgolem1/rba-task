@@ -1,6 +1,6 @@
 package com.rba.services.user;
 
-import com.rba.common.dto.NewCardRequestDTO;
+import com.rba.common.dto.CardInformationRequestDTO;
 import com.rba.common.dto.UserDTO;
 import com.rba.common.exceptions.AppError;
 import com.rba.common.exceptions.AppException;
@@ -132,11 +132,11 @@ public class UserServiceImpl implements UserService {
 
     public void sendUserData(User user) {
 
-        NewCardRequestDTO newCardRequestDTO = new NewCardRequestDTO();
-        newCardRequestDTO.setFirstName(user.getFirstName());
-        newCardRequestDTO.setLastName(user.getLastName());
-        newCardRequestDTO.setCardStatus(user.getCardStatus());
-        newCardRequestDTO.setIdentificationNumber(user.getIdentificationNumber());
+        CardInformationRequestDTO cardInformationRequestDTO = new CardInformationRequestDTO();
+        cardInformationRequestDTO.setFirstName(user.getFirstName());
+        cardInformationRequestDTO.setLastName(user.getLastName());
+        cardInformationRequestDTO.setCardStatus(user.getCardStatus());
+        cardInformationRequestDTO.setIdentificationNumber(user.getIdentificationNumber());
 
         ResponseEntity<String> response;
 
@@ -144,15 +144,17 @@ public class UserServiceImpl implements UserService {
             response = RestUtil.performRequest(
                     RestParameters.builder()
                             .headers(new HttpHeaders())
-                            .body(newCardRequestDTO)
+                            .body(cardInformationRequestDTO)
                             .url(String.format("%s%s", cardApiUrl, "v1/api/v1/card-request"))
                             .method(HttpMethod.POST)
                             .build());
 
-            if (response.getStatusCode().equals(HttpStatus.OK)) {
-                log.info("Successfully send user data {} to card API", user.getIdentificationNumber());
-
+            if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            log.warn("Failed sending data to card API for user {}", user.getIdentificationNumber());
+                throw new AppException(AppError.SENDING_DATA_TO_CARD_API_FAILED, String.format("Sending data to card API for user %s failed with status %s.", user.getIdentificationNumber(), response.getStatusCode()));
             }
+            log.info("Successfully send user data {} to card API", user.getIdentificationNumber());
+
         } catch (Exception e) {
             log.error("Failed to send user data {} to card API: {}", user.getIdentificationNumber(), e.getMessage());
 

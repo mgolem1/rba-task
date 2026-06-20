@@ -16,7 +16,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<ResponseMessage<UserDTO>> createUser(@Valid @RequestBody UserDTO userDTO) throws AppException {
         return ResponseEntity.ok(new ResponseMessage<>(userService.createUser(userDTO)));
     }

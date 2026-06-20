@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewCardRequestDTO {
+public class CardInformationRequestDTO {
 
     private String firstName;
 

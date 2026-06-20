@@ -6,7 +6,8 @@ public enum AppError {
     BAD_REQUEST("Bad request!"),
     UNRECOGNIZED_EXCEPTION("Unrecognized exception!"),
     USER_ALREADY_EXISTS("User already exists!"),
-    USER_NOT_FOUND("User not found!");
+    USER_NOT_FOUND("User not found!"),
+    SENDING_DATA_TO_CARD_API_FAILED("Sending data to card api failed!");
 
     private final String desc; // error description
 

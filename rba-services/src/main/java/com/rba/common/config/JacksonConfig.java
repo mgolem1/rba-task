@@ -6,12 +6,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Spring Boot 4 migrated its auto-configured ObjectMapper to Jackson 3
- * (tools.jackson), so the Jackson 2 (com.fasterxml.jackson) ObjectMapper used
- * throughout this project is no longer provided as a bean automatically.
- * This configuration exposes one, configured consistently with JsonSimpleHelper.
- */
 @Configuration
 public class JacksonConfig {
 
